@@ -27,6 +27,7 @@ public class JpaMain {
 //            System.out.println("===== BEFORE =====");
 //            em.persist(member);
 //            System.out.println("===== AFTER =====");
+//
 //            Member findMember = em.find(Member.class, 101L);
 //
 //            System.out.println("findMember.id = " + findMember.getId());
