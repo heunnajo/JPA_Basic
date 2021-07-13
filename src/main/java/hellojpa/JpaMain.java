@@ -16,22 +16,14 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member1 = em.find(Member.class, 101L);
-            Member member2 = em.find(Member.class, 101L);
-            System.out.println("resoult = " + (member1 == member2));
+            //영속
+            Member member1 = new Member(150L, "A");
+            Member member2 = new Member(160L, "B");
+
+            em.persist(member1);
+            em.persist(member2);
+            System.out.println("============================");//이 라인 기준으로 쿼리가 언제 나가는지 구분!
             tx.commit();
-//            Member member = new Member();
-//            member.setId(101L);
-//            member.setName("HelloHello");
-//
-//            System.out.println("===== BEFORE =====");
-//            em.persist(member);
-//            System.out.println("===== AFTER =====");
-//
-//            Member findMember = em.find(Member.class, 101L);
-//
-//            System.out.println("findMember.id = " + findMember.getId());
-//            System.out.println("findMember.name = " + findMember.getName());
 
         } catch (Exception e){
             tx.rollback();
