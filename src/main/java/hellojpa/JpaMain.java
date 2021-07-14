@@ -16,11 +16,25 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setId(1L);
-            member.setUsername("A");
+            Member member1 = new Member();
+            member1.setUsername("A");
 
-            em.persist(member);
+            Member member2 = new Member();
+            member2.setUsername("B");
+
+            Member member3 = new Member();
+            member3.setUsername("C");
+
+            System.out.println("==================");
+            em.persist(member1);//1, 51
+            em.persist(member2);//메모리에서 호출
+            em.persist(member3);//메모리에서 호출..하닫가 51을 만나는 순간 nextCall이 호출되고 다시 50개 가져옴
+
+            System.out.println("member1 = " + member1.getId());
+            System.out.println("member2 = " + member1.getId());
+            System.out.println("member3 = " + member1.getId());
+
+            System.out.println("==================");
             tx.commit();
         } catch (Exception e){
             tx.rollback();

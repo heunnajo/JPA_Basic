@@ -4,11 +4,13 @@ package hellojpa;
 import javax.persistence.*;
 
 @Entity//JPA가 로딩될 때 엔티티로 인식한다!
-@SequenceGenerator(name="member_seq_generator", sequenceName = "member_seq")
+@TableGenerator(name = "MEMBER_SEQ_GENERATOR",
+        table = "MY_SEQUENCES",
+        pkColumnValue = "MEMBER_SEQ", initialValue = 1,allocationSize = 50)
 public class Member {
 
     @Id//PK
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq_generator")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "MEMBER_SEQ_GENERATOR")
     private Long id;
 
     @Column(name="name",nullable = false)
