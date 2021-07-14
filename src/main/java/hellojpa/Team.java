@@ -13,6 +13,10 @@ public class Team {
     @OneToMany(mappedBy = "team")//현재 뭐랑 연결되있는지를 적어준다!Member 내에서 team이라는 필드!
     private List<Member> members = new ArrayList<>();//관례 : 이렇게 배열리스트 넣어주면 nullpointer안 뜸
 
+    public void addMember(Member member){
+        member.setTeam(this);
+        members.add(member);
+    }
     public List<Member> getMembers() {
         return members;
     }
