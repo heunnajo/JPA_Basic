@@ -16,14 +16,13 @@ public class JpaMain {
         tx.begin();
 
         try {
-            //영속
-            //101	HelloHello를 바꿔보자.
-            Member member = em.find(Member.class, 101L);
-            member.setName("XYZ");
+            Member member = new Member();
+            member.setId(3L);
+            member.setUsername("CD");
+            member.setRoleType(RoleType.GUEST);
 
-            System.out.println("============================");//이 라인 기준으로 쿼리가 언제 나가는지 구분!
+            em.persist(member);
             tx.commit();
-
         } catch (Exception e){
             tx.rollback();
         } finally {
