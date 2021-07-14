@@ -4,17 +4,26 @@ package hellojpa;
 import javax.persistence.*;
 
 @Entity//JPA가 로딩될 때 엔티티로 인식한다!
-@TableGenerator(name = "MEMBER_SEQ_GENERATOR",
-        table = "MY_SEQUENCES",
-        pkColumnValue = "MEMBER_SEQ", initialValue = 1,allocationSize = 50)
 public class Member {
 
-    @Id//PK
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "MEMBER_SEQ_GENERATOR")
+    @Id @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
 
-    @Column(name="name",nullable = false)
+    @Column(name="USERNAMEE")
     private String username;
+
+    @ManyToOne
+    @JoinColumn(name="TEAM_ID")//Member와 연관관계를 갖는 것 TEAM_ID(조인하는 칼럼이름)
+    private Team team;//회원 여러명이 팀 하나에 들어가기 때문에 회원 : 팀 = ManyToOne
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
 
     public Member() {
     }

@@ -16,25 +16,44 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member1 = new Member();
-            member1.setUsername("A");
+            //팀 저장
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-            Member member2 = new Member();
-            member2.setUsername("B");
+            //회원 저장
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeam(team);
+            em.persist(member);
 
-            Member member3 = new Member();
-            member3.setUsername("C");
+            em.flush();
+            em.clear();
 
-            System.out.println("==================");
-            em.persist(member1);//1, 51
-            em.persist(member2);//메모리에서 호출
-            em.persist(member3);//메모리에서 호출..하닫가 51을 만나는 순간 nextCall이 호출되고 다시 50개 가져옴
+            Member findMember = em.find(Member.class, member.getId());
+            Team findTeam = findMember.getTeam();//TeamId를 얻을 때
+            System.out.println("findTeam = " + findTeam.getName());
 
-            System.out.println("member1 = " + member1.getId());
-            System.out.println("member2 = " + member1.getId());
-            System.out.println("member3 = " + member1.getId());
 
-            System.out.println("==================");
+//            Member member1 = new Member();
+//            member1.setUsername("A");
+//
+//            Member member2 = new Member();
+//            member2.setUsername("B");
+//
+//            Member member3 = new Member();
+//            member3.setUsername("C");
+//
+//            System.out.println("==================");
+//            em.persist(member1);//1, 51
+//            em.persist(member2);//메모리에서 호출
+//            em.persist(member3);//메모리에서 호출..하닫가 51을 만나는 순간 nextCall이 호출되고 다시 50개 가져옴
+//
+//            System.out.println("member1 = " + member1.getId());
+//            System.out.println("member2 = " + member1.getId());
+//            System.out.println("member3 = " + member1.getId());
+//
+//            System.out.println("==================");
             tx.commit();
         } catch (Exception e){
             tx.rollback();
