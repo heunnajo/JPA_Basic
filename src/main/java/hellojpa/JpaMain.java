@@ -19,19 +19,25 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
             Member member1 = new Member();
             member1.setUsername("JO");
+            member1.setTeam(team);
+
             em.persist(member1);
 
             //쿼리를 보기 위해(아래와 같이하면 DB에서 직접 데이터를 조회해서 가져오기 때문에)
             em.flush();//영속성 컨텍스트에 있는 것을 DB에 넣는다!
             em.clear();//영속성 컨텍스트를 지운다!(1차 캐시에 아무것도 없음)
 
-            Member refMember = em.getReference(Member.class, member1.getId());
-            System.out.println("refMember.getClass() = " + refMember.getClass());//proxy
-            Hibernate.initialize(refMember);//강제초기화
-//            refMember.getUsername();//강제 초기화
-//            System.out.println("isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(refMember));
+            Member m = em.find(Member.class, member1.getId());
+            System.out.println("m.getTeam().getClass() = " + m.getTeam().getClass());//proxy
+
+            System.out.println("=====================");
+            m.getTeam().getName();//이 시점에 쿼리가 나간다! 초기화시점.
 
             tx.commit();
 

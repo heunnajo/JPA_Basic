@@ -14,7 +14,7 @@ public class Member extends BaseEntity{
     @Column(name="USERNAME")
     private String username;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="TEAM_ID")//Member와 연관관계를 갖는 것 TEAM_ID(조인하는 칼럼이름)
     private Team team;//회원 여러명이 팀 하나에 들어가기 때문에 회원 : 팀 = ManyToOne
 
