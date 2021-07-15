@@ -10,30 +10,30 @@ public class Team extends BaseEntity{
     @Column(name = "TEAM_ID")
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "team")
-    private List<Member> members = new ArrayList<>();//관례 : 이렇게 배열리스트 넣어주면 nullpointer 방지
+//    @OneToMany(mappedBy = "team")
+//    private List<Member> members = new ArrayList<>();//관례 : 이렇게 배열리스트 넣어주면 nullpointer 방지
 
-    public void addMember(Member member){//연관관계 편의 메서드
-        member.setTeam(this);
-        members.add(member);
-    }
-    public List<Member> getMembers() {
-        return members;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+//    public void addMember(Member member){//연관관계 편의 메서드
+//        member.setTeam(this);
+//        members.add(member);
+//    }
+//    public List<Member> getMembers() {
+//        return members;
+//    }
+//
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 }

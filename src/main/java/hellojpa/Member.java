@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity//JPA가 로딩될 때 엔티티로 인식한다!
-public class Member extends BaseEntity{
+public class Member {
 
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
@@ -14,29 +14,18 @@ public class Member extends BaseEntity{
     @Column(name="USERNAME")
     private String username;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="TEAM_ID")//Member와 연관관계를 갖는 것 TEAM_ID(조인하는 칼럼이름)
-    private Team team;//회원 여러명이 팀 하나에 들어가기 때문에 회원 : 팀 = ManyToOne
+    @Embedded
+    private Period period;
 
-//    @OneToOne
-//    @JoinColumn(name = "LOCKER_ID")
-//    private Locker locker;
-
-
-//    public void changeTeam(Team team) {
-//        this.team = team;//팀을 셋팅하고
-//        team.getMembers().add(this);//현재 회원을 팀 members에도 추가!
-//    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public Member() { }
+    @Embedded
+    private Address homeAddress;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city",column=@Column(name="WORK_CITY")),
+            @AttributeOverride(name="street",column=@Column(name="WORK_STREET")),
+            @AttributeOverride(name="zipcode",column=@Column(name="WORK_ZIPCODE"))
+    })
+    private Address workAddress;
 
     public Long getId() {
         return id;
@@ -54,4 +43,27 @@ public class Member extends BaseEntity{
         this.username = username;
     }
 
+    public Period getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Period period) {
+        this.period = period;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public Address getWorkAddress() {
+        return workAddress;
+    }
+
+    public void setWorkAddress(Address workAddress) {
+        this.workAddress = workAddress;
+    }
 }
