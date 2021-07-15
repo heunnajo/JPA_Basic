@@ -2,9 +2,10 @@ package hellojpa;
 
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity//JPA가 로딩될 때 엔티티로 인식한다!
-public class Member {
+public class Member extends BaseEntity{
 
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
@@ -20,6 +21,7 @@ public class Member {
     @OneToOne
     @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
+
 
 //    public void changeTeam(Team team) {
 //        this.team = team;//팀을 셋팅하고

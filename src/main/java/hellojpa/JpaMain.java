@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JpaMain {
@@ -16,20 +17,16 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Movie movie = new Movie();
-            movie.setDirector("Cameron");
-            movie.setActor("Leonardo Dicaprio");
-            movie.setName("Titanic");
-            movie.setPrice(10000);
+            Member member = new Member();
+            member.setUsername("JO");
+            member.setCreatedBy("JO");
+            member.setCreatedDated(LocalDateTime.now());
 
-            em.persist(movie);
+            em.persist(member);
 
             //쿼리를 보기 위해(아래와 같이하면 DB에서 직접 데이터를 조회해서 가져오기 때문에)
             em.flush();//영속성 컨텍스트에 있는 것을 DB에 넣는다!
             em.clear();//영속성 컨텍스트를 지운다!(1차 캐시에 아무것도 없음)
-
-            Item item = em.find(Item.class, movie.getId());
-            System.out.println("item = " + item);
 
             tx.commit();
 
