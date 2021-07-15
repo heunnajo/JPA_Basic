@@ -19,25 +19,29 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
+            Team teamA = new Team();
+            teamA.setName("teamA");
+            em.persist(teamA);
+
+            Team teamB = new Team();
+            teamB.setName("teamB");
+            em.persist(teamB);
 
             Member member1 = new Member();
             member1.setUsername("JO");
-            member1.setTeam(team);
-
+            member1.setTeam(teamA);
             em.persist(member1);
+
+            Member member2 = new Member();
+            member2.setUsername("KIM");
+            member2.setTeam(teamB);
+            em.persist(member2);
 
             //쿼리를 보기 위해(아래와 같이하면 DB에서 직접 데이터를 조회해서 가져오기 때문에)
             em.flush();//영속성 컨텍스트에 있는 것을 DB에 넣는다!
             em.clear();//영속성 컨텍스트를 지운다!(1차 캐시에 아무것도 없음)
 
-            Member m = em.find(Member.class, member1.getId());
-            System.out.println("m.getTeam().getClass() = " + m.getTeam().getClass());//proxy
-
-            System.out.println("=====================");
-            m.getTeam().getName();//이 시점에 쿼리가 나간다! 초기화시점.
+            List<Member> result = em.createQuery("select m from Member m join fetch m.team", Member.class).getResultList();
 
             tx.commit();
 
