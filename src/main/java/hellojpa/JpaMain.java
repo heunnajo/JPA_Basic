@@ -19,35 +19,21 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Team teamA = new Team();
-            teamA.setName("teamA");
-            em.persist(teamA);
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-            Team teamB = new Team();
-            teamB.setName("teamB");
-            em.persist(teamB);
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
 
-            Member member1 = new Member();
-            member1.setUsername("JO");
-            member1.setTeam(teamA);
-            em.persist(member1);
-
-            Member member2 = new Member();
-            member2.setUsername("KIM");
-            member2.setTeam(teamB);
-            em.persist(member2);
-
-            //쿼리를 보기 위해(아래와 같이하면 DB에서 직접 데이터를 조회해서 가져오기 때문에)
-            em.flush();//영속성 컨텍스트에 있는 것을 DB에 넣는다!
-            em.clear();//영속성 컨텍스트를 지운다!(1차 캐시에 아무것도 없음)
-
-            List<Member> result = em.createQuery("select m from Member m join fetch m.team", Member.class).getResultList();
+            em.persist(parent);
+//            em.persist(child1);
+//            em.persist(child2);
 
             tx.commit();
-
         } catch (Exception e){
             tx.rollback();
-            System.out.println("e = " + e);
+            e.printStackTrace();
         } finally {
             em.close();//em이 결국 DB 연결을 담당하기 때문에 자원을 다 쓰고 작업 끝나면 닫아줘야한다!!
         }
