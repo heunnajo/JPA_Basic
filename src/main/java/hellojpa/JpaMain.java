@@ -16,11 +16,7 @@ public class JpaMain {
         tx.begin();
 
         try {
-            //팀 저장
-            Team team = new Team();
-            team.setName("TeamA");
-//            team.getMembers().add(member); 가짜 주인이기 때문에 DB 반영 안 된다!
-            em.persist(team);
+
 
             //회원 저장
             Member member = new Member();
@@ -28,21 +24,28 @@ public class JpaMain {
             //member.changeTeam(team);
             em.persist(member);
 
+            //팀 저장
+            Team team = new Team();
+            team.setName("TeamA");
+            //team.getMembers().add(member); //외래키 업데이트!
+            em.persist(team);
+
             //team기준 연관관계 편의 메서드
             team.addMember(member);
+
+            tx.commit();
 //            em.flush();
 //            em.clear();
-
             //양방향 연관관계 : Member=>Team, Team=>Member 참조!
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers();
+//            Member findMember = em.find(Member.class, member.getId());
+//            List<Member> members = findMember.getTeam().getMembers();
+//
+//            System.out.println("==============");
+//            for (Member m : members) {
+//                System.out.println("m.getUsername() = " + m.getUsername());
+//            }
+//            System.out.println("==============");
 
-            System.out.println("==============");
-            for (Member m : members) {
-                System.out.println("m.getUsername() = " + m.getUsername());
-            }
-            System.out.println("==============");
-            tx.commit();
         } catch (Exception e){
             tx.rollback();
         } finally {
