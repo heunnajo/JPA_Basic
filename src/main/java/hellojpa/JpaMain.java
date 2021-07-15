@@ -16,35 +16,22 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Movie movie = new Movie();
+            movie.setDirector("Cameron");
+            movie.setActor("Leonardo Dicaprio");
+            movie.setName("Titanic");
+            movie.setPrice(10000);
 
+            em.persist(movie);
 
-            //회원 저장
-            Member member = new Member();
-            member.setUsername("member1");
-            //member.changeTeam(team);
-            em.persist(member);
+            //쿼리를 보기 위해(아래와 같이하면 DB에서 직접 데이터를 조회해서 가져오기 때문에)
+            em.flush();//영속성 컨텍스트에 있는 것을 DB에 넣는다!
+            em.clear();//영속성 컨텍스트를 지운다!(1차 캐시에 아무것도 없음)
 
-            //팀 저장
-            Team team = new Team();
-            team.setName("TeamA");
-            //team.getMembers().add(member); //외래키 업데이트!
-            em.persist(team);
-
-            //team기준 연관관계 편의 메서드
-            team.addMember(member);
+            Item item = em.find(Item.class, movie.getId());
+            System.out.println("item = " + item);
 
             tx.commit();
-//            em.flush();
-//            em.clear();
-            //양방향 연관관계 : Member=>Team, Team=>Member 참조!
-//            Member findMember = em.find(Member.class, member.getId());
-//            List<Member> members = findMember.getTeam().getMembers();
-//
-//            System.out.println("==============");
-//            for (Member m : members) {
-//                System.out.println("m.getUsername() = " + m.getUsername());
-//            }
-//            System.out.println("==============");
 
         } catch (Exception e){
             tx.rollback();
