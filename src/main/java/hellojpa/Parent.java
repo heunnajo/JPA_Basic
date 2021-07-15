@@ -14,7 +14,7 @@ public class Parent {
 
     private String name;
 
-    @OneToMany(mappedBy = "parent",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "INNER_JOIN",cascade = CascadeType.ALL, orphanRemoval = true)//parent가 child를 관리하고 있지만 컬렉션에 빠지만 ?
     private List<Child> children = new ArrayList<>();
 
     public void addChild(Child child){
