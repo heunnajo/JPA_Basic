@@ -19,23 +19,16 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Address address = new Address("seoul","Dong-il ro","10101");
+            int a = 10;int b = 10;
 
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            member1.setHomeAddress(address);
-            em.persist(member1);
-            //인스턴스를 복사해서 사용!! Address 객체에 복사하는 메서드 정의해도 좋음.
-            //하나의 필드만 변경되더라도 통으로 새로 생성하는 것이 좋다고 함!
-            Address newAddress = new Address("New City", address.getStreet(), address.getZipcode());
-            member1.setHomeAddress(newAddress);//처음부터 다시 셋팅해야함..
+            System.out.println("(a==b) = " + (a==b));
 
-//            Member member2 = new Member();
-//            member2.setUsername("member2");
-//            member2.setHomeAddress(copiedAddress);
-//            em.persist(member2);
+            Address address1 = new Address("seoul","Dong-il ro","10101");
+            Address address2 = new Address("seoul","Dong-il ro","10101");
 
-            //member1.getHomeAddress().setCity("NEW YORK");
+            System.out.println("(address1 == address2) = " + (address1 == address2));
+            System.out.println("(address1 equals address2) = " + (address1.equals(address2)));
+
 
             tx.commit();
         } catch (Exception e){
