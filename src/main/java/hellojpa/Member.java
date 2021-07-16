@@ -26,13 +26,13 @@ public class Member {
     private List<AddressEntity> addressHistory = new ArrayList<>();
 
 
-    /*값타입 컬렉션 예시
+    //값타입 컬렉션 예시
     @ElementCollection//값 타입 컬렉션
     @CollectionTable(name="FAVORITE_FOOD", joinColumns = @JoinColumn(name="MEMBER_ID"))
     @Column(name="FOOD_NAME")//임베디드 타입인 Address은 필드(컬럼)가 여러개지만 Set<String>은 필드가 하나다.여러개의 String을 저장할 뿐.
     private Set<String> favoriteFoods = new HashSet<>();
 
-     */
+
 
     //    @ElementCollection
 //    @CollectionTable(name="ADDRESS",joinColumns = @JoinColumn(name="MEMBER_ID"))
@@ -52,13 +52,13 @@ public class Member {
     public Address getHomeAddress() { return homeAddress; }
     public void setHomeAddress(Address homeAddress) { this.homeAddress = homeAddress; }
 
-//    public Set<String> getFavoriteFoods() {
-//        return favoriteFoods;
-//    }
-//
-//    public void setFavoriteFoods(Set<String> favoriteFoods) {
-//        this.favoriteFoods = favoriteFoods;
-//    }
+    public Set<String> getFavoriteFoods() {
+        return favoriteFoods;
+    }
+
+    public void setFavoriteFoods(Set<String> favoriteFoods) {
+        this.favoriteFoods = favoriteFoods;
+    }
 
     public List<AddressEntity> getAddressHistory() {
         return addressHistory;

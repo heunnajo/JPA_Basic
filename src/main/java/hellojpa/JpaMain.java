@@ -6,6 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -19,30 +22,14 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        try {
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setHomeAddress(new Address("Seoul","Rodeo","12345"));
+        try {//m은 멤버 자체를 가리킨다!
+            CriteriaBuilder cb = em.getCriteriaBuilder();//CriteriaBuilder는 자바 표준에서 제공하는 문법!
+            CriteriaQuery<Member> query = cb.createQuery(Member.class);
 
-            member.getFavoriteFoods().add("치킨");
-            member.getFavoriteFoods().add("족발");
-            member.getFavoriteFoods().add("피자");
+            Root<Member> m = query.from(Member.class);
 
-            member.getAddressHistory().add(new AddressEntity("old1","Tantandae ro","05234"));
-            member.getAddressHistory().add(new AddressEntity("old2","Haewoon ro","05123"));
-
-            em.persist(member);
-
-            em.flush();
-            em.clear();
-
-            System.out.println("=========== START ==========");
-            Member findMember = em.find(Member.class, member.getId());
-
-            //값 삭제 후 다시 삽입
-//            findMember.getAddressHistory().remove(new Address("new1","Tantandae ro","05234"));
-//            findMember.getAddressHistory().add(new AddressEntity("new2","Tantandae ro","05234"));
-
+            CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
+            List<Member> resultList = em.createQuery(cq).getResultList();
 
             tx.commit();
         } catch (Exception e){
