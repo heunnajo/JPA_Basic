@@ -8,6 +8,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -19,15 +20,28 @@ public class JpaMain {
         tx.begin();
 
         try {
-            int a = 10;int b = 10;
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("Seoul","Rodeo","12345"));
 
-            System.out.println("(a==b) = " + (a==b));
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
 
-            Address address1 = new Address("seoul","Dong-il ro","10101");
-            Address address2 = new Address("seoul","Dong-il ro","10101");
+            member.getAddressHistory().add(new AddressEntity("old1","Tantandae ro","05234"));
+            member.getAddressHistory().add(new AddressEntity("old2","Haewoon ro","05123"));
 
-            System.out.println("(address1 == address2) = " + (address1 == address2));
-            System.out.println("(address1 equals address2) = " + (address1.equals(address2)));
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            System.out.println("=========== START ==========");
+            Member findMember = em.find(Member.class, member.getId());
+
+            //값 삭제 후 다시 삽입
+//            findMember.getAddressHistory().remove(new Address("new1","Tantandae ro","05234"));
+//            findMember.getAddressHistory().add(new AddressEntity("new2","Tantandae ro","05234"));
 
 
             tx.commit();
