@@ -15,9 +15,6 @@ public class Member {
     private String username;
 
     @Embedded
-    private Period period;
-
-    @Embedded
     private Address homeAddress;
     @Embedded
     @AttributeOverrides({
@@ -43,13 +40,13 @@ public class Member {
         this.username = username;
     }
 
-    public Period getPeriod() {
-        return period;
-    }
-
-    public void setPeriod(Period period) {
-        this.period = period;
-    }
+//    public Period getPeriod() {
+//        return period;
+//    }
+//
+//    public void setPeriod(Period period) {
+//        this.period = period;
+//    }
 
     public Address getHomeAddress() {
         return homeAddress;
